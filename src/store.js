@@ -5,8 +5,9 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducers';
 
 const persistConfig = {
-    key: 'root',
-    storage
+  key: 'root',
+  storage,
+  whitelist: ['user'], /// para ficar salvo o usuário sempre, para não perder essa informação e esse 'user' é do combineReducers, que está setando o userReducer como 'user';
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
