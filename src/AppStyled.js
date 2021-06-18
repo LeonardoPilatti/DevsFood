@@ -8,8 +8,11 @@ export const Container = styled.div`
 
 export const Menu = styled.div`
   display: flex;
-  background-color: #00ff00;
+  background-color: #136713;
   width: 80px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const PageBody = styled.div`
