@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CartArea = styled.div`
+export const CartArea = styled.section`
   background-color: #136713;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -20,7 +20,7 @@ export const CartIcon = styled.img`
   height: auto;
   margin: 0 10px;
 `;
-export const CartText = styled.div`
+export const CartText = styled.p`
   color: #fff;
   font-size: 17px;
 `;
