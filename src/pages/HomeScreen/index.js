@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, CategoryArea, CategoryList } from './styled';
+import ReactTooltip from 'react-tooltip';
 
 import api from '../../api';
 
@@ -21,6 +22,7 @@ export default () => {
         /// se não ocorreu erros, irá salvar o cat;
         setCategories(cat.result);
       }
+      ReactTooltip.rebuild(); // para ele recarregar e adicionar as tooltips depois nas categorias;
     };
     getCategories();
   }, []);
@@ -37,7 +39,7 @@ export default () => {
             <CategoryItem
               data={{
                 id: 0,
-                title: 'Todas as categorias',
+                name: 'Todas as categorias',
                 image: '/assets/food-and-restaurant.png',
               }}
               activeCategory={activeCategory}

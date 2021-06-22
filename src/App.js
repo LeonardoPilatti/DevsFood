@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ReactTooltip from 'react-tooltip'; /// npm install react-tooltip;
 
 import { Container, Menu, PageBody } from './AppStyled';
 
@@ -18,10 +19,18 @@ export default () => {
     <BrowserRouter>
       <Container>
         <Menu>
-          <MenuItem icon="/assets/store.png" link="/" />
-          <MenuItem icon="/assets/order.png" link="/orders" />{' '}
+          <MenuItem title="Loja" icon="/assets/store.png" link="/" />
+          <MenuItem
+            title="Pedidos"
+            icon="/assets/order.png"
+            link="/orders"
+          />{' '}
           {/* Orders: esse é o de pedidos */}
-          <MenuItem icon="/assets/profile.png" link="/profile" />
+          <MenuItem
+            title="Meu Perfil"
+            icon="/assets/profile.png"
+            link="/profile"
+          />
         </Menu>
         <PageBody>
           <Switch>
@@ -40,6 +49,9 @@ export default () => {
           </Switch>
         </PageBody>
         <Carrinho />
+        <ReactTooltip id="tip-top" place="top" effect="solid" />
+        <ReactTooltip id="tip-right" place="right" effect="solid" />{' '}
+        {/* ele está no menuItem, com os atributos data para funcionar o Tooltip */}
       </Container>
     </BrowserRouter>
   );
