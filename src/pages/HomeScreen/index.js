@@ -1,6 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, CategoryArea, CategoryList, ProductArea } from './styled';
+import {
+  Container,
+  CategoryArea,
+  CategoryList,
+  ProductArea,
+  ProductPaginationArea,
+  ProductPaginationItem,
+} from './styled';
 import ReactTooltip from 'react-tooltip';
 
 import api from '../../api';
@@ -14,13 +21,17 @@ export default () => {
   const [headerSearch, setHeaderSearch] = React.useState('');
   const [categories, setCategories] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+  const [totalPages, setTotalPages] = React.useState(0);
 
   const [activeCategory, setActiveCategory] = React.useState(0);
+  const [activePage, setActivePage] = React.useState(0);
 
   const getProducts = async () => {
     const prods = await api.getProducts();
     if (prods.error === '') {
       setProducts(prods.result.data);
+      setTotalPages(prods.result.pages);
+      setActivePage(prods.result.page);
     }
   };
 
@@ -37,8 +48,9 @@ export default () => {
   }, []);
 
   React.useEffect(() => {
+    setProducts([]); // zerar o setProducts para sumir o array e aparecer quando carregar
     getProducts();
-  }, [activeCategory]);
+  }, [activeCategory, activePage]);
 
   return (
     <Container>
@@ -75,6 +87,24 @@ export default () => {
             ))}
           </div>
         </ProductArea>
+      )}
+      {totalPages > 0 && (
+        <ProductPaginationArea>
+          <div className="productPaginationItem">
+            {Array(totalPages)
+              .fill(0)
+              .map((item, index) => (
+                <ProductPaginationItem
+                  key={index}
+                  active={activePage}
+                  current={index + 1}
+                  onClick={() => setActivePage(index + 1)}
+                >
+                  {index + 1}
+                </ProductPaginationItem>
+              ))}
+          </div>
+        </ProductPaginationArea>
       )}
     </Container>
   );
