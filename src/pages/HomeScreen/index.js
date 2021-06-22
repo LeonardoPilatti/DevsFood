@@ -16,6 +16,8 @@ import Header from '../../components/Header';
 import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem';
 
+let searchTimer = null;
+
 export default () => {
   const history = useHistory();
   const [headerSearch, setHeaderSearch] = React.useState('');
@@ -24,16 +26,30 @@ export default () => {
   const [totalPages, setTotalPages] = React.useState(0);
 
   const [activeCategory, setActiveCategory] = React.useState(0);
-  const [activePage, setActivePage] = React.useState(0);
+  const [activePage, setActivePage] = React.useState(1);
+  const [activeSearch, setActiveSearch] = React.useState('');
 
   const getProducts = async () => {
-    const prods = await api.getProducts();
+    const prods = await api.getProducts(
+      activeCategory,
+      activePage,
+      activeSearch,
+    );
     if (prods.error === '') {
       setProducts(prods.result.data);
       setTotalPages(prods.result.pages);
       setActivePage(prods.result.page);
     }
   };
+
+  React.useEffect(() => {
+    /// esse useEffect é para ele armazenar o resultado e fazer a busca;
+    clearTimeout(searchTimer); /// para ele cancelar os timeout e começar somente 1;
+
+    searchTimer = setTimeout(() => {
+      setActiveSearch(headerSearch);
+    }, 2000);
+  }, [headerSearch]);
 
   React.useEffect(() => {
     const getCategories = async () => {
@@ -50,7 +66,7 @@ export default () => {
   React.useEffect(() => {
     setProducts([]); // zerar o setProducts para sumir o array e aparecer quando carregar
     getProducts();
-  }, [activeCategory, activePage]);
+  }, [activeCategory, activePage, activeSearch]);
 
   return (
     <Container>
