@@ -20,11 +20,7 @@ export default () => {
       <Container>
         <Menu>
           <MenuItem title="Loja" icon="/assets/store.png" link="/" />
-          <MenuItem
-            title="Pedidos"
-            icon="/assets/order.png"
-            link="/orders"
-          />{' '}
+          <MenuItem title="Pedidos" icon="/assets/order.png" link="/orders" />
           {/* Orders: esse é o de pedidos */}
           <MenuItem
             title="Meu Perfil"
