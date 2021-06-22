@@ -6,4 +6,9 @@ export default {
     const json = await response.json();
     return json;
   },
+  getProducts: async () => {
+    const response = await fetch(BASE + '/products');
+    const json = await response.json();
+    return json;
+  },
 };

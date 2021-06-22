@@ -1,19 +1,28 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, CategoryArea, CategoryList } from './styled';
+import { Container, CategoryArea, CategoryList, ProductArea } from './styled';
 import ReactTooltip from 'react-tooltip';
 
 import api from '../../api';
 
 import Header from '../../components/Header';
 import CategoryItem from '../../components/CategoryItem';
+import ProductItem from '../../components/ProductItem';
 
 export default () => {
   const history = useHistory();
   const [headerSearch, setHeaderSearch] = React.useState('');
   const [categories, setCategories] = React.useState([]);
+  const [products, setProducts] = React.useState([]);
 
   const [activeCategory, setActiveCategory] = React.useState(0);
+
+  const getProducts = async () => {
+    const prods = await api.getProducts();
+    if (prods.error === '') {
+      setProducts(prods.result.data);
+    }
+  };
 
   React.useEffect(() => {
     const getCategories = async () => {
@@ -27,7 +36,9 @@ export default () => {
     getCategories();
   }, []);
 
-  React.useEffect(() => {}, [activeCategory]);
+  React.useEffect(() => {
+    getProducts();
+  }, [activeCategory]);
 
   return (
     <Container>
@@ -55,6 +66,15 @@ export default () => {
             ))}
           </CategoryList>
         </CategoryArea>
+      )}
+      {products.length > 0 && (
+        <ProductArea>
+          <div className="productList">
+            {products.map((item, index) => (
+              <ProductItem key={index} data={item} />
+            ))}
+          </div>
+        </ProductArea>
       )}
     </Container>
   );
