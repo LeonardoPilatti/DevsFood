@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Container,
   CategoryArea,
@@ -15,15 +14,18 @@ import api from '../../api';
 import Header from '../../components/Header';
 import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem';
+import Modal from '../../components/Modal';
+import ModalProduct from '../../components/ModalProduct';
 
 let searchTimer = null;
 
 export default () => {
-  const history = useHistory();
   const [headerSearch, setHeaderSearch] = React.useState('');
   const [categories, setCategories] = React.useState([]);
   const [products, setProducts] = React.useState([]);
   const [totalPages, setTotalPages] = React.useState(0);
+
+  const [modalStatus, setModalStatus] = React.useState(true);
 
   const [activeCategory, setActiveCategory] = React.useState(0);
   const [activePage, setActivePage] = React.useState(1);
@@ -122,6 +124,10 @@ export default () => {
           </div>
         </ProductPaginationArea>
       )}
+
+      <Modal status={modalStatus} setStatus={setModalStatus}>
+        <ModalProduct />
+      </Modal>
     </Container>
   );
 };
