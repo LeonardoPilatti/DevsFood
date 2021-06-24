@@ -1,7 +1,10 @@
 import React from 'react';
 import { Container, ProductButton } from './styled';
+import { useDispatch } from 'react-redux'; /// é importante para usar o redux;
 
 export default ({ data, setStatus }) => {
+  const dispatch = useDispatch();
+
   const [qtd, setQtd] = React.useState(1);
 
   React.useEffect(() => {
@@ -22,6 +25,21 @@ export default ({ data, setStatus }) => {
 
   const handlePlusQt = () => {
     setQtd(qtd + 1);
+  };
+
+  const handleAddToCart = () => {
+    // juntar as informações; // 3 passos para seguir;
+    // mandar isso pro reducer;
+    // fechar o modal
+    dispatch({
+      type: 'ADD_PRODUCT',
+      payload: {
+        data,
+        qtd,
+      },
+    });
+
+    setStatus(false); // fecha o modal;
   };
 
   return (
@@ -58,7 +76,9 @@ export default ({ data, setStatus }) => {
         <ProductButton small={true} onClick={handleCancelButton}>
           Cancelar
         </ProductButton>
-        <ProductButton>Adicionar ao carrinho</ProductButton>
+        <ProductButton onClick={handleAddToCart}>
+          Adicionar ao carrinho
+        </ProductButton>
       </div>
     </Container>
   );
