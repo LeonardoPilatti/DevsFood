@@ -25,7 +25,8 @@ export default () => {
   const [products, setProducts] = React.useState([]);
   const [totalPages, setTotalPages] = React.useState(0);
 
-  const [modalStatus, setModalStatus] = React.useState(true);
+  const [modalStatus, setModalStatus] = React.useState(false);
+  const [modalData, setModalData] = React.useState({});
 
   const [activeCategory, setActiveCategory] = React.useState(0);
   const [activePage, setActivePage] = React.useState(1);
@@ -70,6 +71,11 @@ export default () => {
     getProducts();
   }, [activeCategory, activePage, activeSearch]);
 
+  const handleProductClick = (data) => {
+    setModalData(data);
+    setModalStatus(true);
+  };
+
   return (
     <Container>
       <Header search={headerSearch} onSearch={setHeaderSearch} />
@@ -101,7 +107,11 @@ export default () => {
         <ProductArea>
           <div className="productList">
             {products.map((item, index) => (
-              <ProductItem key={index} data={item} />
+              <ProductItem
+                key={index}
+                data={item}
+                onClick={handleProductClick}
+              />
             ))}
           </div>
         </ProductArea>
@@ -126,7 +136,7 @@ export default () => {
       )}
 
       <Modal status={modalStatus} setStatus={setModalStatus}>
-        <ModalProduct />
+        <ModalProduct data={modalData} setStatus={setModalStatus} />
       </Modal>
     </Container>
   );
